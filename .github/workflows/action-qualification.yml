@@ -25,10 +25,18 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
           submodules: false
-      - name: Run privacy and secrets action
-        uses: edithatogo/repository-standards/.github/actions/privacy-secrets@a5e25796939e43b81141f5cd0b55400377421a58
+      - name: Run staged privacy and secrets action
+        uses: edithatogo/public-ci-action-staging-20261116/.github/actions/privacy-secrets@b12a42df528bcd3036a3964f3e54593839d16234
         with:
           profile: repository
+      - name: Verify scanner behavior and large inventories
+        env:
+          PYTHONPATH: scripts
+          GITLEAKS_BINARY: ${{ runner.temp }}/privacy-guard/bin/gitleaks
+        run: |
+          "$RUNNER_TEMP/privacy-guard/venv/bin/python" -m unittest discover -s tests -p 'test_privacy*.py' -v
+          "$RUNNER_TEMP/privacy-guard/venv/bin/python" -m unittest discover -s tests -p 'test_secrets_scan.py' -v
+          "$RUNNER_TEMP/privacy-guard/venv/bin/python" -m unittest discover -s tests -p 'test_inventory_batching.py' -v
 
   runtime:
     name: Python runtime smoke test
