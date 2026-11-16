@@ -1,5 +1,6 @@
 """Exercise the selected interpreter and isolated fixture environment."""
 
+import importlib.metadata
 import importlib.util
 import sys
 import unittest
@@ -15,6 +16,9 @@ class RuntimeSmokeTest(unittest.TestCase):
         for name in ("pandas", "xarray"):
             with self.subTest(package=name):
                 self.assertIsNone(importlib.util.find_spec(name))
+
+    def test_fixture_dependency_is_installed(self):
+        self.assertEqual(importlib.metadata.version("packaging"), "26.3")
 
 
 if __name__ == "__main__":

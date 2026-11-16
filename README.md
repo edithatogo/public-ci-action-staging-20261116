@@ -7,4 +7,4 @@ different repository's protected checks or full assurance suite have passed.
 
 The privacy action runs its own pinned scanners; the runtime smoke test checks
 CPython and environment isolation; dependency review runs on pull requests.
-The fixture has no third-party runtime dependencies.
+The fixture includes one pinned public package to exercise a dependency change.
